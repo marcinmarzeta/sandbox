@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <serializer>
-    <class name="Application\Sonata\ProductBundle\Entity\Product" exclusion-policy="all" xml-root-name="product" discriminator-field-name="productType">
+    <class name="App\Application\Sonata\ProductBundle\Entity\Product" exclusion-policy="all" xml-root-name="product" discriminator-field-name="productType">
 
         <!--
             Don't forget to define your Product inheritances here if you want to use them in Sonata API.

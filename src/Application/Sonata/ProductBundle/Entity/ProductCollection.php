@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Application\Sonata\ProductBundle\Entity;
+namespace App\Application\Sonata\ProductBundle\Entity;
 
 use Sonata\ProductBundle\Entity\BaseProductCollection as BaseProductCollection;
 

@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Application\Sonata\ProductBundle\Provider;
+namespace App\Application\Sonata\ProductBundle\Provider;
 
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\ProductBundle\Model\BaseProductProvider;
@@ -48,7 +48,7 @@ class TravelProductProvider extends BaseProductProvider
     /**
      * {@inheritDoc}
      */
-    public function buildEditForm(FormMapper $formMapper, $isVariation = false)
+    public function buildEditForm(FormMapper $formMapper, $isVariation = false) : void
     {
         parent::buildEditForm($formMapper, $isVariation);
 
@@ -63,5 +63,10 @@ class TravelProductProvider extends BaseProductProvider
         }
 
         $formMapper->end();
+    }
+
+    public function getTemplatesPath(): string
+    {
+        // TODO: Implement getTemplatesPath() method.
     }
 }

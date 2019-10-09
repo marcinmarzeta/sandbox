@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Application\Sonata\ProductBundle\Provider;
+namespace App\Application\Sonata\ProductBundle\Provider;
 
 use Sonata\ProductBundle\Model\BaseProductProvider;
 
@@ -27,5 +27,10 @@ class GoodieProductProvider extends BaseProductProvider
     public function getBaseControllerName()
     {
         return 'SonataProductBundle:Goodie';
+    }
+
+    public function getTemplatesPath(): string
+    {
+        // TODO: Implement getTemplatesPath() method.
     }
 }
