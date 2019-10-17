@@ -5,8 +5,8 @@ fos_rest:
     view:
         view_response_listener: force
     body_converter:
-        enabled: false
+        enabled: true
         validate: true
-    exception:
-        messages:
-            'Symfony\Component\HttpKernel\Exception\NotFoundHttpException': true
+
+#    zone:
+#        - { path: ^/api/* }

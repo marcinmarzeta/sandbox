@@ -1,0 +1,29 @@
+default:
+    extensions:
+        Behat\MinkExtension:
+            base_url:  'http://demo.sonata-project.org/'
+            goutte:     ~
+            selenium2: ~
+            files_path: .
+
+    suites:
+        default:
+            contexts:
+                - BrowserContext
+                #- FeatureContext:
+                #    - ['chrome']
+            filters:
+                    tags: "~@skipped&&~@api"
+            parameters:
+                base_url:  'http://demo.sonata-project.org/'
+
+api:
+    paths:
+        features:  features/api
+        bootstrap: '%behat.paths.features%/bootstrap'
+    filters:
+        tags: "~@skipped&&@api"
+
+wip:
+    filters:
+        tags: "@skipped"

@@ -8,9 +8,9 @@ sonata_user:
         user: App\Application\Sonata\UserBundle\Entity\User
         group: App\Application\Sonata\UserBundle\Entity\Group
 
-    #google_authenticator:
-    #    server:               %sonata_user.google_authenticator.server%
-    #    enabled:              true
+    google_authenticator:
+        server:               '%sonata_user.google_authenticator.server%'
+        enabled:              true
 
     manager_type:             orm
 

@@ -1,4 +1,12 @@
 twig:
-    default_path: '%kernel.project_dir%/templates'
-    debug: '%kernel.debug%'
-    strict_variables: '%kernel.debug%'
+    default_path:       '%kernel.project_dir%/templates'
+    debug:              '%kernel.debug%'
+    strict_variables:   '%kernel.debug%'
+
+    #base_template_class: Sonata\CacheBundle\Twig\TwigTemplate14
+
+    form_themes:
+        - 'SonataFormatterBundle:Form:formatter.html.twig'
+        - 'SonataMediaBundle:Form:media_widgets.html.twig'
+        - 'SonataCoreBundle:Form:datepicker.html.twig'
+        - 'bootstrap_3_horizontal_layout.html.twig'

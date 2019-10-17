@@ -24,7 +24,6 @@
             <argument type="service" id="faker.generator"/>
         </service>
 
-
         <service id="sonata_bundle_demo.data_fixtures_orm.load_news_data" class="Sonata\Bundle\DemoBundle\DataFixtures\ORM\LoadNewsData">
             <tag name="doctrine.fixture.orm" />
             <argument type="service" id="sonata.formatter.pool"/>
@@ -34,14 +33,14 @@
             <argument type="service" id="sonata.news.manager.comment"/>
             <argument type="service" id="faker.generator"/>
         </service>
-        <!--
+
         <service id="sonata_bundle_demo.data_fixtures_orm.load_order_data" class="Sonata\Bundle\DemoBundle\DataFixtures\ORM\LoadOrderData">
             <tag name="doctrine.fixture.orm" />
             <argument type="service" id="sonata.product.pool"/>
             <argument type="service" id="sonata.payment.transformer.invoice"/>
             <argument type="service" id="faker.generator"/>
         </service>
-        -->
+
         <service id="sonata_bundle_demo.data_fixtures_orm.load_page_data" class="Sonata\Bundle\DemoBundle\DataFixtures\ORM\LoadPageData">
             <tag name="doctrine.fixture.orm" />
             <argument type="service" id="sonata.page.manager.site"/>
@@ -59,7 +58,7 @@
 
         <service id="sonata_bundle_demo.data_fixtures_orm.load_user_data" class="Sonata\Bundle\DemoBundle\DataFixtures\ORM\LoadUserData">
             <tag name="doctrine.fixture.orm" />
-            <argument type="service" id="fos_user.user_manager"/>
+            <argument type="service" id="sonata.user.orm.user_manager"/>
             <argument type="service" id="faker.generator"/>
         </service>
 

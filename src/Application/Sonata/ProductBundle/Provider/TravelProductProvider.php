@@ -42,7 +42,7 @@ class TravelProductProvider extends BaseProductProvider
      */
     public function getBaseControllerName()
     {
-        return 'SonataProductBundle:Travel';
+        return 'ApplicationSonataProductBundle:Travel';
     }
 
     /**
@@ -67,6 +67,6 @@ class TravelProductProvider extends BaseProductProvider
 
     public function getTemplatesPath(): string
     {
-        // TODO: Implement getTemplatesPath() method.
+        return '@ApplicationSonataProduct\Travel';
     }
 }

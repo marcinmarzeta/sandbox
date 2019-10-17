@@ -26,11 +26,11 @@ class GoodieProductProvider extends BaseProductProvider
 {
     public function getBaseControllerName()
     {
-        return 'SonataProductBundle:Goodie';
+        return 'ApplicationSonataProductBundle:Goodie';
     }
 
     public function getTemplatesPath(): string
     {
-        // TODO: Implement getTemplatesPath() method.
+        return '@ApplicationSonataProduct\Goodie';
     }
 }
