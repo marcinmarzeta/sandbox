@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 /*
- * This file is part of the Sonata package.
+ * This file is part of the <name> project.
  *
- * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * (c) <yourname> <youremail>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -11,8 +13,8 @@
 
 namespace Sonata\Bundle\DemoBundle\DataFixtures\ORM;
 
-use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Sonata\NewsBundle\Model\CommentInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
@@ -39,12 +41,12 @@ class LoadNewsData extends AbstractFixture implements ContainerAwareInterface, O
 
         $faker = $this->getFaker();
 
-        $tags = array(
+        $tags = [
             'symfony' => null,
             'form' => null,
             'general' => null,
             'web2' => null,
-        );
+        ];
 
         foreach ($tags as $tagName => $null) {
             $tag = $this->getTagManager()->create();
@@ -72,26 +74,29 @@ class LoadNewsData extends AbstractFixture implements ContainerAwareInterface, O
 
             $id = $this->getReference('sonata-media-0')->getId();
 
-            $raw = <<<RAW
-### Gist Formatter
+            //TODO: fix raw
+            $raw = '';
+            /*
+                        $raw = <<<RAW
+            ### Gist Formatter
 
-Now a specific gist from github
+            Now a specific gist from github
 
-<% gist '1552362' 'gistfile1.txt' %>
+            <% gist '1552362' 'gistfile1.txt' %>
 
-### Media Formatter
+            ### Media Formatter
 
-Load a media from a <code>SonataMediaBundle</code> with a specific format
+            Load a media from a <code>SonataMediaBundle</code> with a specific format
 
-<% media $id, 'big' %>
+            <% media $id, 'big' %>
 
-RAW
-;
-
+            RAW
+            ;
+            */
             $raw .= sprintf("### %s\n\n%s\n\n### %s\n\n%s",
-                $faker->sentence(rand(3, 6)),
+                $faker->sentence(random_int(3, 6)),
                 $faker->text(1000),
-                $faker->sentence(rand(3, 6)),
+                $faker->sentence(random_int(3, 6)),
                 $faker->text(1000)
             );
 

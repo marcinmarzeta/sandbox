@@ -1,8 +1,11 @@
 <?php
+
+declare(strict_types=1);
+
 /*
- * This file is part of the Sonata package.
+ * This file is part of the <name> project.
  *
- * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * (c) <yourname> <youremail>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -17,23 +20,16 @@ use Sonata\Component\Delivery\BaseServiceDelivery;
  *
  * Custom delivery class example
  *
- *
  * @author Hugo Briand <briand@ekino.com>
  */
-class TakeAwayDelivery extends BaseServiceDelivery
+final class TakeAwayDelivery extends BaseServiceDelivery
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function isAddressRequired()
+    public function isAddressRequired(): bool
     {
         return false;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getCode()
+    public function getCode(): string
     {
         return 'take_away';
     }

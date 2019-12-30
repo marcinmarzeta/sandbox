@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 /*
- * This file is part of the Sonata project.
+ * This file is part of the <name> project.
  *
- * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * (c) <yourname> <youremail>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -21,20 +23,15 @@ class PageController extends Controller
      * This make sure there is no regression to retrieve the current website in a sub request.
      *
      * reference: https://github.com/sonata-project/SonataPageBundle/pull/211
-     *
-     * @return Response
      */
-    public function controllerHelperAction()
+    public function controllerHelperAction(): Response
     {
-        return $this->render('SonataQABundle:Page:controllerHelper.html.twig', array(
+        return $this->render('@SonataQA/Page/controllerHelper.html.twig', [
             'site' => $this->get('sonata.page.site.selector')->retrieve(),
-        ));
+        ]);
     }
 
-    /**
-     * @return Response
-     */
-    public function internalControllerAction(Request $request)
+    public function internalControllerAction(Request $request): Response
     {
         $site = $this->get('sonata.page.site.selector')->retrieve();
 

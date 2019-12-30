@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 /*
- * This file is part of the Sonata package.
+ * This file is part of the <name> project.
  *
- * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * (c) <yourname> <youremail>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -11,11 +13,11 @@
 
 namespace Sonata\Bundle\DemoBundle\DataFixtures\ORM;
 
+use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
+use Doctrine\Common\Persistence\ObjectManager;
 use Sonata\MediaBundle\Model\GalleryInterface;
 use Sonata\MediaBundle\Model\MediaInterface;
-use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
-use Doctrine\Common\DataFixtures\AbstractFixture;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Finder\Finder;
@@ -48,7 +50,7 @@ class LoadMediaData extends AbstractFixture implements ContainerAwareInterface, 
         $i = 0;
         foreach ($canada as $file) {
             $media = $mediaManager->create();
-            $media->setBinaryContent($file);
+            $media->setBinaryContent(__DIR__.'/../data/files/gilles-canada/'.$file->getRelativePathname());
             $media->setEnabled(true);
             $media->setName('Canada');
             $media->setDescription('Canada');
@@ -65,7 +67,7 @@ class LoadMediaData extends AbstractFixture implements ContainerAwareInterface, 
 
         foreach ($paris as $file) {
             $media = $mediaManager->create();
-            $media->setBinaryContent($file);
+            $media->setBinaryContent(__DIR__.'/../data/files/hugo-paris/'.$file->getRelativePathname());
             $media->setEnabled(true);
             $media->setName('Paris');
             $media->setDescription('Paris');
@@ -82,7 +84,7 @@ class LoadMediaData extends AbstractFixture implements ContainerAwareInterface, 
 
         foreach ($switzerland as $file) {
             $media = $mediaManager->create();
-            $media->setBinaryContent($file);
+            $media->setBinaryContent(__DIR__.'/../data/files/sylvain-switzerland/'.$file->getRelativePathname());
             $media->setEnabled(true);
             $media->setName('Switzerland');
             $media->setDescription('Switzerland');
@@ -107,15 +109,11 @@ class LoadMediaData extends AbstractFixture implements ContainerAwareInterface, 
         $this->addReference('media-gallery', $gallery);
     }
 
-    /**
-     * @param \Sonata\MediaBundle\Model\GalleryInterface $gallery
-     * @param \Sonata\MediaBundle\Model\MediaInterface   $media
-     */
     public function addMedia(GalleryInterface $gallery, MediaInterface $media)
     {
         $galleryHasMedia = new \AppBundle\Entity\Media\GalleryHasMedia();
         $galleryHasMedia->setMedia($media);
-        $galleryHasMedia->setPosition(count($gallery->getGalleryHasMedias()) + 1);
+        $galleryHasMedia->setPosition(\count($gallery->getGalleryHasMedias()) + 1);
         $galleryHasMedia->setEnabled(true);
 
         $gallery->addGalleryHasMedias($galleryHasMedia);

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * This file is part of the <name> project.
  *
@@ -43,7 +46,6 @@ class Travel extends Product
     /**
      * Sets travellers number.
      *
-     *
      * @param int $travellers
      */
     public function setTravellers($travellers)
@@ -64,7 +66,6 @@ class Travel extends Product
     /**
      * Sets travel date.
      *
-     *
      * @param \DateTime $travelDate
      */
     public function setTravelDate($travelDate)
@@ -84,7 +85,6 @@ class Travel extends Product
 
     /**
      * Sets travel days number.
-     *
      *
      * @param int $travelDays
      */

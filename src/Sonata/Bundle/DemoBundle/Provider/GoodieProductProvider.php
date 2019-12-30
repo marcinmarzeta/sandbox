@@ -1,8 +1,11 @@
 <?php
+
+declare(strict_types=1);
+
 /*
- * This file is part of the sonata project.
+ * This file is part of the <name> project.
  *
- * (c) Thomas Rabaix <thomas.rabaix@sonata-project.com>
+ * (c) <yourname> <youremail>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -10,6 +13,7 @@
 
 namespace Sonata\Bundle\DemoBundle\Provider;
 
+use Sonata\Bundle\DemoBundle\Controller\GoodieController;
 use Sonata\ProductBundle\Model\BaseProductProvider;
 
 /**
@@ -22,10 +26,15 @@ use Sonata\ProductBundle\Model\BaseProductProvider;
  *
  * @author <yourname> <youremail>
  */
-class GoodieProductProvider extends BaseProductProvider
+final class GoodieProductProvider extends BaseProductProvider
 {
-    public function getBaseControllerName()
+    public function getBaseControllerName(): string
     {
-        return 'SonataDemoBundle:Goodie';
+        return GoodieController::class;
+    }
+
+    public function getTemplatesPath(): string
+    {
+        return '@SonataDemo\Goodie';
     }
 }

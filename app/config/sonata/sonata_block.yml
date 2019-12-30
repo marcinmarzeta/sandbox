@@ -55,23 +55,19 @@ sonata_block:
         sonata.basket.block.nb_items:
             cache: sonata.page.cache.js_async
             contexts: [user]
-        sonata.basket.block.nb_items: # FixMe: Why is this duplicated?
-            cache: sonata.page.cache.js_async
-            contexts: [user]
 
         # TimelineBundle's Blocks
 
         sonata.timeline.block.timeline:
-        sonata.timeline.block.timeline:
             contexts:   [admin]
 
-        # UserBundle's Blocks
-        sonata.user.block.account:
-            cache: sonata.page.cache.js_async
+        # ProfileBundle's Blocks
+        #sonata.demo.block.account:
+        #    cache: sonata.page.cache.js_async
             #cache: sonata.page.cache.esi
-            contexts: [user]
-        sonata.user.block.menu:
-            contexts: [user]
+         #   contexts: [profile]
+        sonata.customer.block.profile_menu:
+            contexts: [profile]
 
         # SeoBundle's Blocks
         sonata.seo.block.email.share_button:

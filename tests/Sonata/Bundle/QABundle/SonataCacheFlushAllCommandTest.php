@@ -1,0 +1,26 @@
+<?php
+
+declare(strict_types=1);
+
+/*
+ * This file is part of the <name> project.
+ *
+ * (c) <yourname> <youremail>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace Tests\Sonata\Bundle\QABundle;
+
+class SonataCacheFlushAllCommandTest extends CommandTestCase
+{
+    public function testFlushAll()
+    {
+        $client = self::createClient();
+        $output = $this->runCommand($client, 'sonata:cache:flush-all', false);
+
+        $this->assertNotNull($output);
+        $this->assertStringNotContainsString('FAILED!', $output);
+    }
+}

@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 /*
- * This file is part of the Sonata project.
+ * This file is part of the <name> project.
  *
- * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * (c) <yourname> <youremail>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -11,10 +13,10 @@
 
 namespace Sonata\Bundle\QABundle\Controller;
 
+use JMS\Serializer\SerializationContext;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use JMS\Serializer\SerializationContext;
 
 class SerializerController extends Controller
 {
@@ -22,17 +24,13 @@ class SerializerController extends Controller
      * This make sure there is no regression to retrieve the current website in a sub request.
      *
      * reference: https://github.com/sonata-project/SonataPageBundle/pull/211
-     *
-     * @param Request $request
-     *
-     * @return Response
      */
-    public function serializeAction(Request $request)
+    public function serializeAction(Request $request): Response
     {
-        $raw = array(
+        $raw = [
             'json' => 'no data available',
             'xml' => 'no data available',
-        );
+        ];
 
         if ($request->isMethod('POST')) {
             $class = $request->get('class');
@@ -40,7 +38,7 @@ class SerializerController extends Controller
             if ($request->get('id')) {
                 $object = $this->getDoctrine()->getRepository($class)->find($request->get('id'));
             } else {
-                $object = $this->getDoctrine()->getRepository($class)->findOneBy(array());
+                $object = $this->getDoctrine()->getRepository($class)->findOneBy([]);
             }
 
             $serializationContext = SerializationContext::create();
@@ -48,7 +46,7 @@ class SerializerController extends Controller
             $serializationContext->enableMaxDepthChecks();
 
             if ($request->get('group')) {
-                $serializationContext->setGroups(array($request->get('group')));
+                $serializationContext->setGroups([$request->get('group')]);
             }
 
             if ($request->get('version')) {
@@ -58,15 +56,15 @@ class SerializerController extends Controller
             $jsonSerializationContext = $serializationContext;
             $xmlSerializationContext = clone $serializationContext;
 
-            $raw = array(
+            $raw = [
                 'json' => $this->get('jms_serializer')->serialize($object, 'json', $jsonSerializationContext),
-                'xml' => $this->get('jms_serializer')->serialize($object, 'xml',  $xmlSerializationContext),
-            );
+                'xml' => $this->get('jms_serializer')->serialize($object, 'xml', $xmlSerializationContext),
+            ];
         }
 
         $metas = $this->getDoctrine()->getManager()->getMetadataFactory()->getAllMetadata();
 
-        $classes = array();
+        $classes = [];
         foreach ($metas as $name => $meta) {
             if ($meta->reflClass->isAbstract()) {
                 continue;
@@ -75,9 +73,9 @@ class SerializerController extends Controller
             $classes[] = $meta->name;
         }
 
-        return $this->render('SonataQABundle:Serializer:serialize.html.twig', array(
+        return $this->render('@SonataQA/Serializer/serialize.html.twig', [
             'classes' => $classes,
             'raw' => $raw,
-        ));
+        ]);
     }
 }

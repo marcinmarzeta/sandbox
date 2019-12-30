@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 /*
- * This file is part of the Sonata project.
+ * This file is part of the <name> project.
  *
- * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * (c) <yourname> <youremail>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -11,9 +13,9 @@
 
 namespace Sonata\Bundle\DemoBundle\Entity;
 
+use AppBundle\Entity\User\User;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use AppBundle\Entity\User\User;
 
 /**
  * @ORM\Entity
@@ -61,14 +63,19 @@ class Inspection
      */
     protected $status;
 
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getDate() ? $this->getDate()->format('Y-m-d') : 'n/a';
+    }
+
     public function getId()
     {
         return $this->id;
     }
 
-    /**
-     * @param Car $car
-     */
     public function setCar(Car $car)
     {
         $this->car = $car;
@@ -144,13 +151,5 @@ class Inspection
     public function setInspector(User $inspector = null)
     {
         $this->inspector = $inspector;
-    }
-
-    /**
-     * @return string
-     */
-    public function __toString()
-    {
-        return $this->getDate() ? $this->getDate()->format('Y-m-d') : 'n/a';
     }
 }

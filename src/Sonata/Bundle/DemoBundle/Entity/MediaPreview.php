@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 /*
- * This file is part of the Sonata project.
+ * This file is part of the <name> project.
  *
- * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * (c) <yourname> <youremail>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -17,9 +19,6 @@ class MediaPreview
 {
     protected $media;
 
-    /**
-     * @param \Sonata\MediaBundle\Model\MediaInterface $media
-     */
     public function setMedia(MediaInterface $media)
     {
         $this->media = $media;

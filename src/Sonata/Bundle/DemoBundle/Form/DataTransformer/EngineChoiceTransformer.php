@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 /*
- * This file is part of the Sonata project.
+ * This file is part of the <name> project.
  *
- * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * (c) <yourname> <youremail>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -13,25 +15,19 @@ namespace Sonata\Bundle\DemoBundle\Form\DataTransformer;
 
 use Symfony\Component\Form\DataTransformerInterface;
 
-class EngineChoiceTransformer implements DataTransformerInterface
+final class EngineChoiceTransformer implements DataTransformerInterface
 {
     protected $choices;
 
-    /**
-     * @param array $choices
-     */
     public function __construct(array $choices)
     {
         $this->choices = $choices;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function transform($value)
     {
         foreach ($this->choices as $pos => $choice) {
-            if ($value == $choice) {
+            if ($value === $choice) {
                 return $pos;
             }
         }
@@ -39,9 +35,6 @@ class EngineChoiceTransformer implements DataTransformerInterface
         return null;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function reverseTransform($value)
     {
         if (!$value) {

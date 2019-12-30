@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 /*
- * This file is part of the Sonata package.
+ * This file is part of the <name> project.
  *
- * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * (c) <yourname> <youremail>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -11,11 +13,14 @@
 
 namespace Sonata\Bundle\DemoBundle\DataFixtures\ORM;
 
-use AppBundle\Entity\Media\GalleryHasMedia;
 use AppBundle\Entity\Commerce\Delivery;
 use AppBundle\Entity\Commerce\Package;
 use AppBundle\Entity\Commerce\ProductCategory;
 use AppBundle\Entity\Commerce\ProductCollection;
+use AppBundle\Entity\Media\GalleryHasMedia;
+use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
+use Doctrine\Common\Persistence\ObjectManager;
 use Sonata\Bundle\DemoBundle\Entity\Goodie;
 use Sonata\Bundle\DemoBundle\Entity\Travel;
 use Sonata\ClassificationBundle\Model\CategoryInterface;
@@ -26,9 +31,6 @@ use Sonata\MediaBundle\Model\MediaInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Finder\Finder;
-use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
 
 /**
  * Product fixtures loader.
@@ -53,7 +55,7 @@ class LoadProductData extends AbstractFixture implements OrderedFixtureInterface
 
         // default media
         $defaultMedia = $this->getMediaManager()->create();
-        $defaultMedia->setBinaryContent(new \SplFileInfo(__DIR__.'/../data/files/sonata_logo.png'));
+        $defaultMedia->setBinaryContent(__DIR__.'/../data/files/sonata_logo.png');
         $defaultMedia->setEnabled(true);
         $defaultMedia->setName('product_catalog_default_media');
         $defaultMedia->setDescription('Default Product media');
@@ -87,8 +89,8 @@ class LoadProductData extends AbstractFixture implements OrderedFixtureInterface
                 $dummy->setRawShortDescription('<p>Dummy product. We use it to test our catalog capabilities.</p>');
                 $dummy->setDescriptionFormatter('richhtml');
                 $dummy->setShortDescriptionFormatter('richhtml');
-                $dummy->setPrice(rand(0, 2 * $i));
-                $dummy->setStock(rand(1, 100 * $i));
+                $dummy->setPrice(random_int(0, 2 * $i));
+                $dummy->setStock(random_int(1, 100 * $i));
                 $dummy->setVatRate(20);
                 $dummy->setEnabled(true);
                 $manager->persist($dummy);
@@ -991,6 +993,32 @@ EOF
         return 7;
     }
 
+    /**
+     * Returns the Sonata MediaManager.
+     *
+     * @return \Sonata\MediaBundle\Model\MediaManagerInterface
+     */
+    public function getMediaManager()
+    {
+        return $this->container->get('sonata.media.manager.media');
+    }
+
+    /**
+     * @return \Sonata\MediaBundle\Model\GalleryManagerInterface
+     */
+    public function getGalleryManager()
+    {
+        return $this->container->get('sonata.media.manager.gallery');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setContainer(ContainerInterface $container = null)
+    {
+        $this->container = $container;
+    }
+
     protected function getLorem()
     {
         return '
@@ -1005,10 +1033,7 @@ EOF
     /**
      * Create a ProductCategory and adds given Product to given Category.
      *
-     * @param ProductInterface  $product
-     * @param CategoryInterface $category
-     * @param bool              $enabled
-     * @param ObjectManager     $manager
+     * @param bool $enabled
      */
     protected function addProductToCategory(ProductInterface $product, CategoryInterface $category, ObjectManager $manager, $enabled = true)
     {
@@ -1030,10 +1055,7 @@ EOF
     /**
      * Create a ProductCollection and adds given Product to given Collection.
      *
-     * @param ProductInterface    $product
-     * @param CollectionInterface $collection
-     * @param bool                $enabled
-     * @param ObjectManager       $manager
+     * @param bool $enabled
      */
     protected function addProductToCollection(ProductInterface $product, CollectionInterface $collection, ObjectManager $manager, $enabled = true)
     {
@@ -1050,9 +1072,6 @@ EOF
 
     /**
      * Create and add deliveries for a given Product.
-     *
-     * @param ProductInterface $product
-     * @param ObjectManager    $manager
      */
     protected function addProductDeliveries(ProductInterface $product, ObjectManager $manager)
     {
@@ -1078,7 +1097,7 @@ EOF
         $delivery->setCountryCode('FR');
         $delivery->setCode('chronopost');
         $delivery->setEnabled(true);
-        $delivery->setPerItem(rand(15, 30));
+        $delivery->setPerItem(random_int(15, 30));
         $delivery->setProduct($product);
         $product->addDelivery($delivery);
         $manager->persist($delivery);
@@ -1087,7 +1106,7 @@ EOF
         $delivery->setCountryCode('GB');
         $delivery->setCode('ups');
         $delivery->setEnabled(true);
-        $delivery->setPerItem(rand(15, 30));
+        $delivery->setPerItem(random_int(15, 30));
         $delivery->setProduct($product);
         $product->addDelivery($delivery);
         $manager->persist($delivery);
@@ -1124,7 +1143,7 @@ EOF
         $file = new \SplFileInfo($mediaFilename);
 
         $media = $mediaManager->create();
-        $media->setBinaryContent($file);
+        $media->setBinaryContent($mediaFilename);
         $media->setEnabled(true);
         $media->setName($name);
         $media->setDescription($description);
@@ -1139,8 +1158,6 @@ EOF
 
     /**
      * Returns Switzerland gallery from a specified directory.
-     *
-     * @param ProductInterface $product
      */
     protected function addSwitzerlandGallery(ProductInterface $product)
     {
@@ -1157,7 +1174,7 @@ EOF
         $pos = 0;
         foreach ($files as $file) {
             $media = $this->getMediaManager()->create();
-            $media->setBinaryContent($file);
+            $media->setBinaryContent(__DIR__.'/../data/files/sylvain-switzerland/'.$file->getRelativePathname());
             $media->setEnabled(true);
             $media->setDescription('Switzerland');
             $media->setName('Switzerland');
@@ -1183,8 +1200,6 @@ EOF
 
     /**
      * Returns Paris gallery from a specified directory.
-     *
-     * @param ProductInterface $product
      */
     protected function addParisGallery(ProductInterface $product)
     {
@@ -1203,7 +1218,7 @@ EOF
         $pos = 0;
         foreach ($files as $file) {
             $media = $this->getMediaManager()->create();
-            $media->setBinaryContent($file);
+            $media->setBinaryContent(__DIR__.'/../data/files/gilles-paris/'.$file->getRelativePathname());
             $media->setEnabled(true);
             $media->setDescription('Paris');
             $media->setName(sprintf('Paris %s', $a));
@@ -1233,7 +1248,7 @@ EOF
         $pos = 0;
         foreach ($files as $file) {
             $media = $this->getMediaManager()->create();
-            $media->setBinaryContent($file);
+            $media->setBinaryContent(__DIR__.'/../data/files/hugo-paris/'.$file->getRelativePathname());
             $media->setEnabled(true);
             $media->setDescription('Paris');
             $media->setName(sprintf('Paris %s', $b));
@@ -1261,8 +1276,6 @@ EOF
 
     /**
      * Returns Canada gallery from a specified directory.
-     *
-     * @param ProductInterface $product
      */
     protected function addCanadaGallery(ProductInterface $product)
     {
@@ -1279,7 +1292,7 @@ EOF
         $pos = 0;
         foreach ($files as $file) {
             $media = $this->getMediaManager()->create();
-            $media->setBinaryContent($file);
+            $media->setBinaryContent(__DIR__.'/../data/files/gilles-canada/'.$file->getRelativePathname());
             $media->setEnabled(true);
             $media->setDescription('Canada');
             $media->setName('Canada');
@@ -1305,7 +1318,7 @@ EOF
         $pos = 0;
         foreach ($files as $file) {
             $media = $this->getMediaManager()->create();
-            $media->setBinaryContent($file);
+            $media->setBinaryContent(__DIR__.'/../data/files/hugo-canada/'.$file->getRelativePathname());
             $media->setEnabled(true);
             $media->setDescription('Canada');
             $media->setName('Canada');
@@ -1331,8 +1344,6 @@ EOF
 
     /**
      * Returns Japan gallery from a specified directory.
-     *
-     * @param ProductInterface $product
      */
     protected function addJapanGallery(ProductInterface $product)
     {
@@ -1349,7 +1360,7 @@ EOF
         $pos = 0;
         foreach ($files as $file) {
             $media = $this->getMediaManager()->create();
-            $media->setBinaryContent($file);
+            $media->setBinaryContent(__DIR__.'/../data/files/maha-japan/'.$file->getRelativePathname());
             $media->setEnabled(true);
             $media->setDescription('Japan');
             $media->setName('Japan');
@@ -1374,8 +1385,6 @@ EOF
     }
 
     /**
-     * @param ProductInterface $product
-     *
      * @return object|\Sonata\MediaBundle\Model\MediaInterface
      */
     protected function getGalleryForProduct(ProductInterface $product)
@@ -1402,33 +1411,25 @@ EOF
         return $gallery;
     }
 
-    /**
-     * @param MediaInterface   $media
-     * @param GalleryInterface $gallery
-     */
     protected function addMediaToGallery(MediaInterface $media, GalleryInterface $gallery)
     {
         $galleryHasMedia = new GalleryHasMedia();
         $galleryHasMedia->setMedia($media);
-        $galleryHasMedia->setPosition(count($gallery->getGalleryHasMedias()) + 1);
+        $galleryHasMedia->setPosition(\count($gallery->getGalleryHasMedias()) + 1);
         $galleryHasMedia->setEnabled(true);
 
         $gallery->addGalleryHasMedias($galleryHasMedia);
     }
 
-    /**
-     * @param ProductInterface $product
-     * @param ObjectManager    $manager
-     */
     protected function addPackageToProduct(ProductInterface $product, ObjectManager $manager)
     {
         $package = new Package();
 
         $package->setProduct($product);
-        $package->setWidth(rand(1, 50));
-        $package->setHeight(rand(1, 50));
-        $package->setLength(rand(1, 50));
-        $package->setWeight(rand(1, 50));
+        $package->setWidth(random_int(1, 50));
+        $package->setHeight(random_int(1, 50));
+        $package->setLength(random_int(1, 50));
+        $package->setWeight(random_int(1, 50));
         $package->setEnabled(true);
         $package->setCreatedAt(new \DateTime());
         $package->setUpdatedAt(new \DateTime());
@@ -1539,16 +1540,6 @@ EOF
     }
 
     /**
-     * Returns the Sonata MediaManager.
-     *
-     * @return \Sonata\MediaBundle\Model\MediaManagerInterface
-     */
-    public function getMediaManager()
-    {
-        return $this->container->get('sonata.media.manager.media');
-    }
-
-    /**
      * Return the Product Pool.
      *
      * @return \Sonata\Component\Product\Pool
@@ -1556,22 +1547,6 @@ EOF
     protected function getProductPool()
     {
         return $this->container->get('sonata.product.pool');
-    }
-
-    /**
-     * @return \Sonata\MediaBundle\Model\GalleryManagerInterface
-     */
-    public function getGalleryManager()
-    {
-        return $this->container->get('sonata.media.manager.gallery');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setContainer(ContainerInterface $container = null)
-    {
-        $this->container = $container;
     }
 
     /**

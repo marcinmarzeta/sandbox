@@ -1,8 +1,11 @@
 <?php
+
+declare(strict_types=1);
+
 /*
- * This file is part of the Sonata package.
+ * This file is part of the <name> project.
  *
- * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * (c) <yourname> <youremail>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -11,10 +14,10 @@
 namespace Sonata\Bundle\DemoBundle\Block;
 
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\CoreBundle\Validator\ErrorElement;
 use Sonata\BlockBundle\Block\BaseBlockService;
 use Sonata\BlockBundle\Block\BlockContextInterface;
 use Sonata\BlockBundle\Model\BlockInterface;
+use Sonata\CoreBundle\Validator\ErrorElement;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
@@ -28,7 +31,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  *
  * @author Vincent Composieux <vincent.composieux@gmail.com>
  */
-class NewsletterBlockService extends BaseBlockService
+final class NewsletterBlockService extends BaseBlockService
 {
     /**
      * @var FormInterface
@@ -43,55 +46,46 @@ class NewsletterBlockService extends BaseBlockService
      * @param FormFactoryInterface $formFactory Symfony FormFactory service
      * @param string               $formType    Newsletter form type
      */
-    public function __construct($name, EngineInterface $templating, FormFactoryInterface $formFactory, $formType)
+    public function __construct(string $name, EngineInterface $templating, FormFactoryInterface $formFactory, $formType)
     {
         parent::__construct($name, $templating);
 
         $this->form = $formFactory->create($formType);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function execute(BlockContextInterface $blockContext, Response $response = null)
+    public function execute(BlockContextInterface $blockContext, Response $response = null): Response
     {
-        return $this->renderPrivateResponse($blockContext->getTemplate(), array(
+        return $this->renderPrivateResponse($blockContext->getTemplate(), [
             'block' => $blockContext->getBlock(),
             'context' => $blockContext,
             'form' => $this->form->createView(),
-        ));
+        ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function buildEditForm(FormMapper $form, BlockInterface $block)
+    public function buildEditForm(FormMapper $form, BlockInterface $block): void
     {
         // no options available
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function validateBlock(ErrorElement $errorElement, BlockInterface $block)
+    public function validateBlock(ErrorElement $errorElement, BlockInterface $block): void
     {
     }
 
     /**
      * {@inheritdoc}
      */
-    public function configureSettings(OptionsResolver $resolver)
+    public function configureSettings(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(array(
-            'template' => 'SonataDemoBundle:Block:newsletter.html.twig',
+        $resolver->setDefaults([
+            'template' => '@SonataDemo/Block/newsletter.html.twig',
             'ttl' => 0,
-        ));
+        ]);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getName(): string
     {
         return 'Newsletter Block (fake)';
     }

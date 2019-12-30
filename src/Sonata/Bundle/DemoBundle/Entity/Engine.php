@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 /*
- * This file is part of the Sonata project.
+ * This file is part of the <name> project.
  *
- * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * (c) <yourname> <youremail>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -53,6 +55,14 @@ class Engine
         $this->power = $power;
     }
 
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getName() ?: 'n/a';
+    }
+
     public function getId()
     {
         return $this->id;
@@ -90,17 +100,6 @@ class Engine
         return $this->power;
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
-    {
-        return $this->getName() ?: 'n/a';
-    }
-
-    /**
-     * @param MediaInterface $media
-     */
     public function setMedia(MediaInterface $media)
     {
         $this->media = $media;
